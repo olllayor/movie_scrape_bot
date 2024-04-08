@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import time
 from rich import print
 def search_dramas(query):
-    url = f"https://dramacool.bg/search?type=drama&keyword={query}&sort=views"
+    url = f"https://asianc.to/search?type=movies&keyword={query}&sort=views"
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
 
@@ -23,7 +23,7 @@ def search_dramas(query):
             })
 
     return dramas
-# print(search_dramas("queen"))
+# print(search_dramas("queen of"))
 # Ensure this function is in your crawler.py or wherever your scraping logic is
 def drama_episodes(drama_url):
     response = requests.get(drama_url)

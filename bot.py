@@ -21,7 +21,7 @@ url_map = {}
 
 @dp.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
-    await message.reply("Welcome to the Korean Movie Bot!\nSend me the name of a K-drama movie, and I'll try to find it for you.")
+    await message.reply("Welcome to the Korean Movie Bot!\n\n\nSend me the name of a K-drama movie, and I'll try to find it for you.\n\n\n‼️ Please enter the name of the movie as completely as possible")
 
 @dp.message_handler(content_types=types.ContentType.TEXT)
 async def handle_text(message: types.Message):
