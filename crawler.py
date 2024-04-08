@@ -14,7 +14,7 @@ def search_dramas(query):
         h3_elem = drama_elem.find("h3", class_="title")
         if h3_elem:
             drama_name = h3_elem.text.strip()
-            drama_url = drama_elem.find("a")["href"]
+            drama_url =  "https://asianc.to" + drama_elem.find("a")["href"]
             image_url = drama_elem.find("img")["src"]
             dramas.append({
                 "name": drama_name,
@@ -36,6 +36,7 @@ def drama_episodes(drama_url):
         if h3_elem:
             episode_name = h3_elem.text.strip()
             episode_url = episode_elem.find("a")["href"]
+            
             episodes.append({"name": episode_name, "url": episode_url})
 
     return episodes
