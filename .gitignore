@@ -1,0 +1,8 @@
+# generate for .gitignore
+# Generated for .gitignore
+*.pyc
+__pycache__
+.venv/
+.env
+
+selenium_scrape.py
