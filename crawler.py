@@ -47,11 +47,16 @@ def drama_episodes(drama_url):
         h3_elem = episode_elem.find("h3", class_="title")
         if h3_elem:
             episode_name = h3_elem.text.strip()
-            episode_url = episode_elem.find("a")["href"]            
-            episodes.append({"name": episode_name, "url": episode_url})
+            episode_url = "https://asianc.to" + episode_elem.find("a")["href"]            
+            episodes.append(
+                {
+                    "name": episode_name, 
+                    "url": episode_url
+                }
+            )
 
     return episodes
-
+# print(drama_episodes("https://asianc.to/drama-detail/queen-of-tears"))
 def download_btn(episode_url):
     response = requests.get(episode_url)
     soup = BeautifulSoup(response.content, "html.parser")
