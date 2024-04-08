@@ -2,29 +2,41 @@ import requests
 from bs4 import BeautifulSoup
 import time
 from rich import print
+
+
 def search_dramas(query):
     url = f"https://asianc.to/search?type=movies&keyword={query}&sort=views"
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
 
     dramas = []
-    drama_elements = soup.find_all("li")
+    drama_elements = soup.find_all("li", class_="")
 
     for drama_elem in drama_elements:
-        h3_elem = drama_elem.find("h3", class_="title")
-        if h3_elem:
-            drama_name = h3_elem.text.strip()
-            drama_url =  "https://asianc.to" + drama_elem.find("a")["href"]
-            image_url = drama_elem.find("img")["src"]
-            dramas.append({
-                "name": drama_name,
-                "url": drama_url,
-                "image_url": image_url
-            })
+        # Assuming drama details are within the anchor tag with class "img"
+        drama_link_elem = drama_elem.find("a", class_="img")
+        if drama_link_elem:
+            h3_elem = drama_link_elem.find("h3", class_="title")
+            image_elem = drama_link_elem.find("img")
+            if image_elem and 'data-original' in image_elem.attrs:
+                image_url = image_elem['data-original']
+            else:
+                image_url = None  # Or set a default image URL if desired
+
+            if h3_elem and image_url:
+                drama_name = h3_elem.text.strip()
+                drama_url = "https://asianc.to" + drama_link_elem["href"]
+
+                dramas.append({
+                    "name": drama_name,
+                    "url": drama_url,
+                    "image_url": image_url
+                })
 
     return dramas
 # print(search_dramas("queen of"))
-# Ensure this function is in your crawler.py or wherever your scraping logic is
+
+
 def drama_episodes(drama_url):
     response = requests.get(drama_url)
     soup = BeautifulSoup(response.content, "html.parser")
@@ -35,8 +47,7 @@ def drama_episodes(drama_url):
         h3_elem = episode_elem.find("h3", class_="title")
         if h3_elem:
             episode_name = h3_elem.text.strip()
-            episode_url = episode_elem.find("a")["href"]
-            
+            episode_url = episode_elem.find("a")["href"]            
             episodes.append({"name": episode_name, "url": episode_url})
 
     return episodes
